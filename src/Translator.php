@@ -45,6 +45,18 @@ class Translator
     protected $detectUrl;
 
     /**
+     * To identify a user by IP address
+     * @var
+     */
+    protected $userIp;
+
+    /**
+     * To identify a user by unique id
+     * @var
+     */
+    protected $quotaUser;
+
+    /**
      * @return Client
      */
     public function getHttpClient()
@@ -137,6 +149,14 @@ class Translator
     {
         if ($attachKey) {
             $this->translateUrl = $translateUrl . '?key=' . $this->getApiKey();
+
+            if($this->getUserIp()){
+                $this->translateUrl = $this->translateUrl . '&userIp=' . $this->getUserIp();                
+            }
+
+            if($this->getQuotaUser()){
+                $this->translateUrl = $this->translateUrl . '&quotaUser=' . $this->getQuotaUser();                
+            }
         } else {
             $this->translateUrl = $translateUrl;
         }
@@ -160,11 +180,56 @@ class Translator
     {
         if ($attachKey) {
             $this->detectUrl = $detectUrl . '?key=' . $this->getApiKey();
+            
+            if($this->getUserIp()){
+                $this->detectUrl = $this->detectUrl . '&userIp=' . $this->getUserIp();                
+            }
+
+            if($this->getQuotaUser()){
+                $this->detectUrl = $this->detectUrl . '&quotaUser=' . $this->getQuotaUser();                
+            }
         } else {
             $this->detectUrl = $detectUrl;
         }
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getUserIp()
+    {
+        return $this->userIp;
+    }
+
+    /**
+     * @param $userIp
+     * @return $this
+     */
+    public function setUserIp($userIp)
+    {
+        $this->userIp = $userIp;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQuotaUser()
+    {
+        return $this->quotaUser;
+    }
+
+    /**
+     * @param $quotaUser
+     * @return $this
+     */
+    public function setQuotaUser($quotaUser)
+    {
+        $this->quotaUser = $quotaUser;
+        return $this;
+    }
+
 
     /**
      * Translator constructor.
